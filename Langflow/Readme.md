@@ -24,7 +24,7 @@ This guide will help you get LangFlow up and running using Docker and Docker Com
 3. Run the Docker Compose file:
 
    ```sh
-   docker compose up -d
+   docker compose up 
    ```
 
 LangFlow will now be accessible at [http://localhost:7860/](http://localhost:7860/).
