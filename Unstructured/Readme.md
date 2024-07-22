@@ -1,37 +1,65 @@
-### Run the library in a container
+# Unstructured API Docker Setup
 
-The following instructions are intended to help you get up and running using Docker to interact with `unstructured`.
-See [here](https://docs.docker.com/get-docker/) if you don't already have docker installed on your machine.
+This guide will help you set up Langflow locally using Docker. 
 
-NOTE: we build multi-platform images to support both x86_64 and Apple silicon hardware. `docker pull` should download the corresponding image for your architecture, but you can specify with `--platform` (e.g. `--platform linux/amd64`) if needed.
+## Prerequisites
 
-We build Docker images for all pushes to `main`. We tag each image with the corresponding short commit hash (e.g. `fbc7a69`) and the application version (e.g. `0.5.5-dev1`). We also tag the most recent image with `latest`. To leverage this, `docker pull` from our image repository.
+- Docker installed on your machine. You can download and install Docker from [here](https://www.docker.com/products/docker-desktop).
 
-```bash
-docker pull downloads.unstructured.io/unstructured-io/unstructured:latest
+## Steps
+
+### 1. Pull the Unstructured API Docker Image
+
+Open your Terminal or command prompt and pull the Langflow image from Docker Hub:
+
+```sh
+docker pull downloads.unstructured.io/unstructured-io/unstructured-api:latest
 ```
 
-Once pulled, you can create a container from this image and shell to it.
+### 2. Run Unstructured API in a Docker Container
+Run the Docker container with the following command, mapping port 6333 on your host to port 6333 on the container:
 
-```bash
-# create the container
-docker run -dt --name unstructured downloads.unstructured.io/unstructured-io/unstructured:latest
+```sh
+docker run -p 8000:8000 -d --rm --name unstructured-api downloads.unstructured.io/unstructured-io/unstructured-api:latest
 
-# this will drop you into a bash shell where the Docker image is running
-docker exec -it unstructured bash
 ```
+### 3. Access Unstructured API
 
-You can also build your own Docker image. Note that the base image is `wolfi-base`, which is
-updated regularly. If you are building the image locally, it is possible `docker-build` could
-fail due to upstream changes in `wolfi-base`.
+Once the container is running, you can access Langflow by opening a web browser and navigating to:
 
-If you only plan on parsing one type of data you can speed up building the image by commenting out some
-of the packages/requirements necessary for other data types. See Dockerfile to know which lines are necessary
-for your use case.
+### http://localhost:8000
 
-```bash
-make docker-build
+# Note :
+When you get the error server under heavy load you need to do this thing.
+### WSL Configuration Guide
 
-# this will drop you into a bash shell where the Docker image is running
-make docker-start-bash
+This guide explains how to use the `.wslconfig` file to configure the Windows Subsystem for Linux (WSL) on Windows 10 and Windows 11.
+
+## What is .wslconfig?
+
+The `.wslconfig` file allows you to customize various settings for WSL 2, such as memory limits, CPU limits, swap space, and localhost forwarding.
+
+## How to Use the .wslconfig File
+
+### 1. Create/Edit the .wslconfig File
+
+The `.wslconfig` file should be located in your Windows user profile directory, typically `C:\Users\<YourUsername>\`.
+
+1. Open a text editor (e.g., Notepad, Visual Studio Code).
+2. Create a new file named `.wslconfig` or open the existing one located at `C:\Users\<YourUsername>\`.
+
+### 2. Configure Settings
+
+Add your desired configuration settings to the `.wslconfig` file. Below are some common settings:
+
+```ini
+[wsl2]
+memory=8GB   # Limits VM memory size
+processors=12 # Limits number of available processors
+swap=8GB      # Disables the swap file
+localhostForwarding=true # Enables localhost forwarding
+```
+At last make sure to open terminal and you should be in the same folder where the file is present and run command and restart docker
+``` bash
+wsl --shutdown
 ```

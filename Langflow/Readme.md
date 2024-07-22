@@ -1,65 +1,30 @@
-# Running LangFlow with Docker
+# Langflow Docker Setup
 
-This guide will help you get LangFlow up and running using Docker and Docker Compose.
+This guide will help you set up Langflow locally using Docker. 
 
 ## Prerequisites
 
-- Docker
-- Docker Compose
+- Docker installed on your machine. You can download and install Docker from [here](https://www.docker.com/products/docker-desktop).
 
 ## Steps
 
-1. Clone the LangFlow repository:
+### 1. Pull the Langflow Docker Image
 
-   ```sh
-   git clone https://github.com/langflow-ai/langflow.git
-   ```
+Open your terminal or command prompt and pull the Langflow image from Docker Hub:
 
-2. Navigate to the `docker_example` directory:
+```sh
+docker pull langflowai/langflow
+```
 
-   ```sh
-   cd langflow/docker_example
-   ```
+### 2. Run Langflow in a Docker Container
+Run the Docker container with the following command, mapping port 7860 on your host to port 7860 on the container:
 
-3. Run the Docker Compose file:
+```sh
+docker run -p 7860:7860 langflowai/langflow:latest
 
-   ```sh
-   docker compose up 
-   ```
+```
+### 3. Access Langflow
 
-LangFlow will now be accessible at [http://localhost:7860/](http://localhost:7860/).
+Once the container is running, you can access Langflow by opening a web browser and navigating to:
 
-## Docker Compose Configuration
-
-The Docker Compose configuration spins up two services: `langflow` and `postgres`.
-
-### LangFlow Service
-
-The `langflow` service uses the `langflowai/langflow:latest` Docker image and exposes port 7860. It depends on the `postgres` service.
-
-Environment variables:
-
-- `LANGFLOW_DATABASE_URL`: The connection string for the PostgreSQL database.
-- `LANGFLOW_CONFIG_DIR`: The directory where LangFlow stores logs, file storage, monitor data, and secret keys.
-
-Volumes:
-
-- `langflow-data`: This volume is mapped to `/var/lib/langflow` in the container.
-
-### PostgreSQL Service
-
-The `postgres` service uses the `postgres:16` Docker image and exposes port 5432.
-
-Environment variables:
-
-- `POSTGRES_USER`: The username for the PostgreSQL database.
-- `POSTGRES_PASSWORD`: The password for the PostgreSQL database.
-- `POSTGRES_DB`: The name of the PostgreSQL database.
-
-Volumes:
-
-- `langflow-postgres`: This volume is mapped to `/var/lib/postgresql/data` in the container.
-
-## Switching to a Specific LangFlow Version
-
-If you want to use a specific version of LangFlow, you can modify the `image` field under the `langflow` service in the Docker Compose file. For example, to use version 1.0-alpha, change `langflowai/langflow:latest` to `langflowai/langflow:1.0-alpha`.
+### http://localhost:7860
