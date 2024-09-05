@@ -1,0 +1,12 @@
+version: '3.8'
+services:
+  app:
+    image: 'nginx:latest'
+    restart: unless-stopped
+    ports:
+      - '80:80'
+      - '81:81'
+      - '443:443'
+      - '3010:3010'
+    volumes:
+      - ./conf.d:/etc/nginx/conf.d

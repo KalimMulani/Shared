@@ -27,6 +27,6 @@ docker run -p 6333:6333 -p 6334:6334 \
 ```
 ### 3. Access QDrant
 
-Once the container is running, you can access Langflow by opening a web browser and navigating to:
+Once the container is running, you can access Qdrant by opening a web browser and navigating to:
 
-### http://localhost:7860/dashboard
+### http://localhost:6333/dashboard
